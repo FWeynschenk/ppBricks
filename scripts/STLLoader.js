@@ -1,5 +1,4 @@
 import {
-    BufferAttribute,
     BufferGeometry,
     FileLoader,
     Float32BufferAttribute,
@@ -54,7 +53,14 @@ class STLLoader extends Loader {
     constructor(manager) {
         super(manager);
     }
-
+    loadBlob(blob, onLoad) {
+        const scope = this;
+        try {
+            onLoad(scope.parse(blob));
+        } catch (error) {
+            console.error(error);
+        }
+    }
     load(url, onLoad, onProgress, onError) {
         const scope = this;
         const loader = new FileLoader(this.manager);

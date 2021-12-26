@@ -9,6 +9,12 @@
 </head>
 
 <body>
+    <div v-scope>
+        <p>{{ plusOne }}</p>
+        <button @click="increment">increment</button>
+        <button @click="downloadModel">Download Model</button>
+    </div>
+    <div id="stlViewer"></div>
     <script type="module" src="scripts/index.js"></script>
 </body>
 
