@@ -1,3 +1,14 @@
 canvas {
-    border : 2px solid #ccc;
+    border: 2px solid #ccc;
+}
+
+.btn-primary {
+    background-color: #12af61 !important;
+    border-color: #2e6da4 !important;
+    color: #fff !important;
+}
+.btn-primary:hover {
+    background-color: #2e6da4 !important;
+    border-color: #12af61 !important;
+    color: #fff !important;
 }

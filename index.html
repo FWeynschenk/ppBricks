@@ -5,17 +5,126 @@
     <title>Perfect Printable Bricks</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link type="text/css" rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/tachyons@4.12.0/css/tachyons.min.css" />
 </head>
+<!--Wizard{elephantsfoot}, info popper hover, anti elephantsfeet cube-->
 
-<body>
-    <div v-scope>
-        <p>{{ plusOne }}</p>
-        <button @click="increment">increment</button>
-        <button @click="downloadModel">Download Model</button>
+<body v-scope @mounted="mounted">
+    <div class="container mt-3">
+        <div class="row">
+            <h1 class="f1 fw1 text-center">Perfect Printable Bricks</h1>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-12 col-lg-5 p-0">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h5 class="f5 fw5">
+                                        Brick Settings
+                                    </h5>
+                                    <div v-scope="selectInput({
+                                        name: 'Type',
+                                        description: 'Select the type of brick you want to print',
+                                        options: [
+                                                    {label:'Regular', value:'regular'}, 
+                                                    {label:'Technic', value:'technic'},
+                                                    {label:'Arm', value:'arm'},
+                                                    {label:'Plate', value:'plate'}
+                                                ],
+                                        value: 'regular'})">
+                                    </div>
+                                    <div v-scope="selectInput({
+                                        name: 'Top Type',
+                                        description: 'Select the type of top',
+                                        options: [
+                                                    {label:'Studs', value:'studs'}, 
+                                                    {label:'Technic Studs', value:'techStuds'},
+                                                    {label:'Tile', value:'tile'},
+                                                ],
+                                        value: 'studs'})">
+                                    </div>
+                                    <div v-scope="sliderInput({
+                                        name: 'Width',
+                                        description: 'Select the width of the brick measured in studs',
+                                        min: 1,
+                                        max: 50,
+                                        value: 2,
+                                        step: 1})">
+                                    </div>
+                                    <div v-scope="sliderInput({
+                                        name: 'Depth',
+                                        description: 'Select the depth of the brick measured in studs',
+                                        min: 1,
+                                        max: 50,
+                                        value: 4,
+                                        step: 1})">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <h5 class="f5 fw5">
+                                        Modifiers
+                                    </h5>
+                                    aaaaaaaaaaaaaaaaaaaaa
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-1 d-flex justify-content-center align-items-center">
+                <button @click="renderStl" type="button" class="btn btn-primary">
+                    <i class="bi bi-box-arrow-in-down-right fs-1"></i>
+
+                    Render
+
+                    Model
+                </button>
+                <!--
+                    <button @click="downloadStl" class="btn btn-info position-absolute top-50 start-50 translate-middle">
+                    Download Model
+                    <i class="bi bi-download fs-1"></i>
+                </button>
+                -->
+
+            </div>
+
+            <div id="stlContainer" class="col-12 col-lg-5 p-0">
+                <div id="stlViewer"></div>
+            </div>
+        </div>
     </div>
-    <div id="stlViewer"></div>
+
     <script type="module" src="scripts/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
+
+<template id="select-template">
+    <div class="form-floating">
+        <select class="form-select" :id="name+'-id'">
+            <option v-for="option in options" :value="option.value">
+                {{option.label}}
+            </option>
+        </select>
+        <label :for="name+'-id'">{{ name }}</label>
+    </div>
+</template>
+
+<template id="slider-template">
+    <div class="border border-2 rounded-1 px-2">
+        <label :for="name+'id'" class="form-label">{{ name }}: {{ value }}</label>
+        <input type="range" class="form-range" v-model="value" :min="min" :max="max" :step="step" :id="name+'id'">
+    </div>
+</template>

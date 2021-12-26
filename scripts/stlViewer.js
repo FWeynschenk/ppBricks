@@ -2,7 +2,7 @@ import * as THREE from './three.module.js';
 import { OrbitControls } from './OrbitControls.js';
 import { STLLoader } from './STLLoader.js';
 
-let scene, camera, renderer, curObj, grid;
+let scene, camera, renderer, curObj, grid, controls;
 
 let x = 500, y = 500; // default stl viewer size
 let gridOffsetX = 0;
@@ -35,9 +35,6 @@ function init() {
     directionalLight.shadow.camera.right = 120;
     scene.add(directionalLight);
 
-    // loading file
-    loader.load('./models/out2.stl', meshLoadCB);
-
     // ground
     const ground = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false }));
     ground.rotation.x = - Math.PI / 2;
@@ -58,7 +55,7 @@ function init() {
     renderer.shadowMap.enabled = true;
     document.getElementById("stlViewer").appendChild(renderer.domElement);
 
-    const controls = new OrbitControls(camera, renderer.domElement);
+    controls = new OrbitControls(camera, renderer.domElement);
     controls.target.set(0, 25, 0);
     controls.update();
 
@@ -105,24 +102,23 @@ function meshLoadCB(geometry) {
     setGridOffset(mesh.geometry.boundingBox.min);
 
     scene.add(mesh);
+    controls.reset();
     animate();
 }
 
 function setGridOffset(v3) {
-    if (Math.abs(Math.round(v3.x) % 8 < 2) && gridOffsetX == 0) {
+    grid.translateX(-gridOffsetX);
+    gridOffsetX = 0;
+    grid.translateZ(-gridOffsetZ);
+    gridOffsetZ = 0;
+    if ((Math.abs(Math.round(v3.x) % 8) > 2)) {
         gridOffsetX = 4;
         grid.translateX(4);
-    } else if (gridOffsetX == 4) {
-        gridOffsetX = 0;
-        grid.translateX(-4);
-    }
-    if (Math.abs(Math.round(v3.y) % 8 < 2) && gridOffsetZ == 0) {
+    } 
+    if ((Math.abs(Math.round(v3.y) % 8) > 2)) {
         gridOffsetZ = 4;
         grid.translateZ(4);
-    } else if (gridOffsetZ == 4) {
-        gridOffsetZ = 0;
-        grid.translateZ(-4);
-    }
+    } 
 }
 
 function loadString(string) {
