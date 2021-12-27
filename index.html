@@ -114,7 +114,7 @@
 
 <template id="select-template">
     <div class="form-floating">
-        <select v-on:change="setVal" class="form-select" :id="name+'-id'">
+        <select v-on:change="setVal" class="form-select" :id="name+'-id'" v-model="value">
             <option v-for="option in options" :value="option.value">
                 {{option.label}}
             </option>

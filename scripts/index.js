@@ -79,7 +79,8 @@ function selectInput(props) {
         options: props.options,
         value: props.value,
         setVal() {
-            vals[props.name] = this.value;
+            setTimeout(()=>{vals[props.name] = this.value;}, 100)
+            
         }
     }
 }
