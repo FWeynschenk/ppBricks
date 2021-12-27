@@ -12,7 +12,7 @@ createApp({
 
     // methods
     renderStl() {
-        fetch('http://bp508.hopto.org:3847')
+        fetch('https://bp508.hopto.org:3847')
             .then(response => response.json())
             .then(data => {
                 loadString(data);
