@@ -40,7 +40,7 @@
                                                 ],
                                         value: 'regular'})">
                                     </div>
-                                    <div v-scope="selectInput({
+                                    <div :style="{display: vals.Type!='arm' ? 'block' : 'none'}"v-scope="selectInput({
                                         name: 'TopType',
                                         label: 'Top Type',
                                         description: 'Select the type of top',
@@ -51,7 +51,8 @@
                                                 ],
                                         value: 'studs'})">
                                     </div>
-                                    <div v-scope="sliderInput({
+                                    <div :style="{display: (vals.Type=='plate'||vals.Type=='regular') ? 'block' : 'none'}"
+                                    v-scope="sliderInput({
                                         name: 'Width',
                                         label: 'Width',
                                         description: 'Select the width of the brick measured in studs',
@@ -60,7 +61,8 @@
                                         value: 2,
                                         step: 1})">
                                     </div>
-                                    <div v-scope="sliderInput({
+                                    <div :style="{display: vals.Type=='plate'||vals.Type=='regular' ? 'block' : 'none'}"
+                                    v-scope="sliderInput({
                                         name: 'Depth',
                                         label: 'Depth',
                                         description: 'Select the depth of the brick measured in studs',
@@ -69,6 +71,48 @@
                                         value: 4,
                                         step: 1})">
                                     </div>
+                                    <div :style="{display: vals.Type=='plate'||vals.Type=='regular' ? 'block' : 'none'}"
+                                    v-scope="sliderInput({
+                                        name: 'Height',
+                                        label: 'Height, 9.6 is standard',
+                                        description: 'Select the height of the brick in mm.',
+                                        min: 3.2,
+                                        max: 38.4,
+                                        value: 9.6,
+                                        step: 3.2})">
+                                    </div>
+                                    <div :style="{display: vals.Type=='technic' ? 'block' : 'none'}"
+                                    v-scope="sliderInput({
+                                        name: 'TechLength',
+                                        label: 'Length',
+                                        description: 'Select the length of the technic brick in studs.',
+                                        min: 1,
+                                        max: 50,
+                                        value: 4,
+                                        step: 1})">
+                                    </div>
+                                    <div :style="{display: vals.Type=='arm' ? 'block' : 'none'}" 
+                                    v-scope="sliderInput({
+                                        name: 'ArmLengthX',
+                                        label: 'Length',
+                                        description: 'Select the length of the arm in holes.',
+                                        min: 1,
+                                        max: 50,
+                                        value: 3,
+                                        step: 1})">
+                                    </div>
+                                    <div :style="{display: vals.Type=='arm' ? 'block' : 'none'}" 
+                                    v-scope="selectInput({
+                                        name: 'ArmDepth',
+                                        label: 'Arm Depth',
+                                        description: 'Select the type of top',
+                                        options: [
+                                                    {label:'Full', value:'full'}, 
+                                                    {label:'Half', value:'half'},
+                                                ],
+                                        value: 'half'})">
+                                    </div>
+
                                 </div>
                                 <div class="col-6">
                                     <h5 class="f5 fw5">
@@ -85,7 +129,8 @@
                 </div>
             </div>
             <div class="col-12 col-lg-1 d-flex justify-content-center align-items-center py-2">
-                <button @click="renderStl" type="button" class="btn btn-primary" :style="{visibility: true ? 'visible' : 'hidden'}">
+                <button @click="renderStl" type="button" class="btn btn-primary"
+                    :style="{visibility: true ? 'visible' : 'hidden'}">
                     <i class="bi bi-box-arrow-in-down-right fs-1"></i>
                     Render Model
                 </button>
@@ -126,6 +171,7 @@
 <template id="slider-template">
     <div class="border border-2 rounded-1 px-2">
         <label :for="name+'id'" class="form-label">{{ label }}: {{ value }}</label>
-        <input v-on:change="setVal" type="range" class="form-range" v-model="value" :min="min" :max="max" :step="step" :id="name+'id'">
+        <input v-on:change="setVal" type="range" class="form-range" v-model="value" :min="min" :max="max" :step="step"
+            :id="name+'id'">
     </div>
 </template>

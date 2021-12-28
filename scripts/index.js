@@ -1,10 +1,11 @@
-import { createApp } from 'https://unpkg.com/petite-vue@0.2.2/dist/petite-vue.es.js'
+import { createApp, reactive } from 'https://unpkg.com/petite-vue@0.2.2/dist/petite-vue.es.js'
 import { loadString, loadUrl, setViewerSize } from './stlViewer.js'
 
 
-const vals = {};
+const vals = reactive({});
 
 createApp({
+    vals,
     // getters
     get plusOne() {
         return this.count + 1
@@ -63,8 +64,9 @@ function sliderInput(props) {
         max: props.max,
         step: props.step,
         value: props.value,
+        parents: props.parents,
         setVal() {
-            vals[props.name] = parseInt(this.value);
+            vals[props.name] = Number(this.value);
         }
     }
 }
