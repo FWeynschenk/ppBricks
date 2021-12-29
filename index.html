@@ -16,12 +16,12 @@
 <body v-scope @mounted="mounted">
     <div class="container mt-3">
         <div class="row">
-            <h1 class="f1 fw1 text-center">Perfect Printable Bricks</h1>
+            <h1 class="display-1 text-center pb-1">Perfect Printable Bricks</h1>
         </div>
-        <div class="row d-flex justify-content-center">
+        <div class="row d-flex justify-content-between">
             <div class="col-12 col-lg-5 p-0">
                 <div class="card h-100">
-                    <div class="card-body">
+                    <div class="card-body px-0">
                         <div class="container">
                             <div class="row">
                                 <div class="col-6">
@@ -40,7 +40,7 @@
                                                 ],
                                         value: 'regular'})">
                                     </div>
-                                    <div :style="{display: vals.Type!='arm' ? 'block' : 'none'}"v-scope="selectInput({
+                                    <div :style="{display: vals.Type!='arm' ? 'block' : 'none'}" v-scope="selectInput({
                                         name: 'TopType',
                                         label: 'Top Type',
                                         description: 'Select the type of top',
@@ -52,7 +52,7 @@
                                         value: 'studs'})">
                                     </div>
                                     <div :style="{display: (vals.Type=='plate'||vals.Type=='regular') ? 'block' : 'none'}"
-                                    v-scope="sliderInput({
+                                        v-scope="sliderInput({
                                         name: 'Width',
                                         label: 'Width',
                                         description: 'Select the width of the brick measured in studs',
@@ -62,7 +62,7 @@
                                         step: 1})">
                                     </div>
                                     <div :style="{display: vals.Type=='plate'||vals.Type=='regular' ? 'block' : 'none'}"
-                                    v-scope="sliderInput({
+                                        v-scope="sliderInput({
                                         name: 'Depth',
                                         label: 'Depth',
                                         description: 'Select the depth of the brick measured in studs',
@@ -71,18 +71,16 @@
                                         value: 4,
                                         step: 1})">
                                     </div>
-                                    <div :style="{display: vals.Type=='regular' ? 'block' : 'none'}"
-                                    v-scope="sliderInput({
+                                    <div :style="{display: vals.Type=='regular' ? 'block' : 'none'}" v-scope="sliderInput({
                                         name: 'Height',
-                                        label: 'Height, 9.6 is standard',
+                                        label: 'Height',
                                         description: 'Select the height of the brick in mm.',
                                         min: 3.2,
                                         max: 38.4,
                                         value: 9.6,
                                         step: 3.2})">
                                     </div>
-                                    <div :style="{display: vals.Type=='technic' ? 'block' : 'none'}"
-                                    v-scope="sliderInput({
+                                    <div :style="{display: vals.Type=='technic' ? 'block' : 'none'}" v-scope="sliderInput({
                                         name: 'TechLength',
                                         label: 'Length',
                                         description: 'Select the length of the technic brick in studs.',
@@ -91,8 +89,7 @@
                                         value: 4,
                                         step: 1})">
                                     </div>
-                                    <div :style="{display: vals.Type=='arm' ? 'block' : 'none'}" 
-                                    v-scope="sliderInput({
+                                    <div :style="{display: vals.Type=='arm' ? 'block' : 'none'}" v-scope="sliderInput({
                                         name: 'ArmLengthX',
                                         label: 'Length',
                                         description: 'Select the length of the arm in holes.',
@@ -101,8 +98,7 @@
                                         value: 3,
                                         step: 1})">
                                     </div>
-                                    <div :style="{display: vals.Type=='arm' ? 'block' : 'none'}" 
-                                    v-scope="selectInput({
+                                    <div :style="{display: vals.Type=='arm' ? 'block' : 'none'}" v-scope="selectInput({
                                         name: 'ArmDepth',
                                         label: 'Arm Depth',
                                         description: 'Select the type of top',
@@ -112,13 +108,87 @@
                                                 ],
                                         value: 'half'})">
                                     </div>
-
                                 </div>
                                 <div class="col-6">
                                     <h5 class="f5 fw5">
                                         Modifiers
                                     </h5>
-                                    aaaaaaaaaaaaaaaaaaaaa
+                                    <div :class="(vals.TopType=='studs' || vals.TopType=='techStuds') ? 'opacity-100' : 'opacity-25'"
+                                        v-scope="sliderInput({
+                                        name: 'studOuterRadiusOffset',
+                                        label: 'Stud Outer Offset',
+                                        description: 'Offset for the outer radius of studs.',
+                                        min: -0.2,
+                                        max: 0.2,
+                                        value: 0,
+                                        step: 0.02})">
+                                    </div>
+                                    <div :class="vals.TopType=='techStuds' ? 'opacity-100' : 'opacity-25'" v-scope="sliderInput({
+                                        name: 'studInnerRadiusOffset',
+                                        label: 'Stud Inner Offset',
+                                        description: 'Offset for the inner radius of studs.',
+                                        min: -0.2,
+                                        max: 0.2,
+                                        value: 0,
+                                        step: 0.02})">
+                                    </div>
+                                    <div :class="vals.TopType!='tile' ? 'opacity-100' : 'opacity-25'" v-scope="selectInput({
+                                        name: 'studHeight',
+                                        label: 'Stud Height',
+                                        description: 'These are known values and should work',
+                                        options: [
+                                                    {label:'1.6', value:1.6}, 
+                                                    {label:'1.7', value:1.7}, 
+                                                    {label:'1.8', value:1.8},
+                                                ],
+                                        value: 1.7})">
+                                    </div>
+                                    <div :class="vals.Type=='regular' ? 'opacity-100' : 'opacity-25'" v-scope="sliderInput({
+                                        name: 'tubeOuterRadiusOffset',
+                                        label: 'Tube Outer Offset.',
+                                        description: 'Tubes are the cylinders under a brick.',
+                                        min: -0.2,
+                                        max: 0.2,
+                                        value: 0,
+                                        step: 0.02})">
+                                    </div>
+                                    <div :class="vals.Type=='regular' ? 'opacity-100' : 'opacity-25'" v-scope="sliderInput({
+                                        name: 'tubeInnerRadiusOffset',
+                                        label: 'Tube Inner Offset',
+                                        description: 'Tubes are the cylinders under a brick.',
+                                        min: -0.2,
+                                        max: 0.2,
+                                        value: 0,
+                                        step: 0.02})">
+                                    </div>
+                                    <div :class="(vals.Type=='regular' || vals.Type=='technic')? 'opacity-100' : 'opacity-25'"
+                                        v-scope="sliderInput({
+                                        name: 'wallThicknessOffset',
+                                        label: 'Wall Thickness Offset',
+                                        description: 'Only applies to the inner dimension of the walls.',
+                                        min: -0.2,
+                                        max: 0.2,
+                                        value: 0,
+                                        step: 0.02})">
+                                    </div>
+                                    <div :class="vals.Type=='technic' ? 'opacity-100' : 'opacity-25'" v-scope="sliderInput({
+                                        name: 'techHoleRadOffset',
+                                        label: 'Tech Hole Offset',
+                                        description: 'Offset for the radius of the holes in the technic brick.',
+                                        min: -0.2,
+                                        max: 0.2,
+                                        value: 0,
+                                        step: 0.01})">
+                                    </div>
+                                    <div :class="vals.Type=='arm' ? 'opacity-100' : 'opacity-25'" v-scope="sliderInput({
+                                        name: 'armHoleRadOffset',
+                                        label: 'Arm Hole Offset',
+                                        description: 'Offset for the radius of the holes in the arm.',
+                                        min: -0.2,
+                                        max: 0.2,
+                                        value: 0,
+                                        step: 0.01})">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -128,11 +198,11 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-lg-1 d-flex justify-content-center align-items-center py-2">
-                <button @click="renderStl" type="button" class="btn btn-primary"
+            <div class="col-12 col-lg-1 d-flex justify-content-center align-items-center py-2 ">
+                <button @click="mainBtnClick" type="button" class="btn btn-primary fs-5"
                     :style="{visibility: true ? 'visible' : 'hidden'}">
                     <i class="bi bi-box-arrow-in-down-right fs-1"></i>
-                    Render Model
+                    {{ buttonState.text }}
                 </button>
                 <!--
                     <button @click="downloadStl" class="btn btn-info position-absolute top-50 start-50 translate-middle">
@@ -159,7 +229,7 @@
 
 <template id="select-template">
     <div class="form-floating">
-        <select v-on:change="setVal" class="form-select" :id="name+'-id'" v-model="value">
+        <select v-on:change="setVal" class="form-select my-1" :id="name+'-id'" v-model="value">
             <option v-for="option in options" :value="option.value">
                 {{option.label}}
             </option>
@@ -169,7 +239,7 @@
 </template>
 
 <template id="slider-template">
-    <div class="border border-2 rounded-1 px-2">
+    <div class="border border-1 rounded-1 px-2 my-1">
         <label :for="name+'id'" class="form-label">{{ label }}: {{ value }}</label>
         <input v-on:change="setVal" type="range" class="form-range" v-model="value" :min="min" :max="max" :step="step"
             :id="name+'id'">
