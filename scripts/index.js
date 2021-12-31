@@ -7,27 +7,49 @@ const buttonStates = {
     default: {
         id: 'default',
         text: "Render Model",
-        disabled: true,
+        disabled: false,
+        icon: "bi bi-box-arrow-in-down-right fs-1"
     },
     loading: {
         id: 'loading',
         text: "Loading...",
         disabled: true,
+        icon: "spinner-border"
+    },
+    queued: {
+        id: 'queued',
+        text: "Queued...",
+        disabled: true,
+        icon: "spinner-border"
     },
     failed: {
         id: 'failed',
         text: "Failed to render model",
-    }
+        icon: "bi bi-exclamation-circle-fill fs-1"
+    },
+    download: {
+        id: 'download',
+        text: "Download STL",
+        icon: "bi bi-cloud-arrow-down fs-1",
+        disabled: false
+    },
+    warning: {
+        id: 'warning',
+        text: "Too many requests from this IP",
+        icon: "bi bi-exclamation-circle fs-1",
+        disabled: true,
+    },
 }
 
 createApp({
     vals,
     buttonState: buttonStates.default,
+    queuePlace: 0,
+    modelName: '',
     model: undefined,
-    
+
     // methods
     renderStl() {
-        console.log(vals)
         fetch('https://bp508.hopto.org:3847', {
             method: 'POST',
             body: JSON.stringify(vals),
@@ -35,9 +57,18 @@ createApp({
         })
             .then(response => response.json())
             .then(data => {
-                loadString(data);
-                this.model = data;
-                this.buttonState = buttonStates.default;
+                if (data.queue) {
+                    console.log('queue: ', data.queue);
+                    this.buttonState = data.queue == 0 ? buttonStates.loading : buttonStates.queued;
+                    this.queuePlace = data.queue;
+                    setTimeout(renderStl, 5000);
+                } else if (data.stl) {
+                    console.log('stl: ', data.stl.length);
+                    loadString(data.stl);
+                    this.modelName = data.name;
+                    this.model = data.stl;
+                    this.buttonState = buttonStates.download;
+                }
             }).catch(error => {
                 console.log(error);
                 this.buttonState = buttonStates.failed;
@@ -47,14 +78,14 @@ createApp({
         const objectUrl = URL.createObjectURL(new Blob([this.model], { type: 'text/stl' }));
         const link = document.createElement('a');
         link.href = objectUrl;
-        link.setAttribute('download', 'model.stl');
+        link.setAttribute('download', `${this.modelName}.stl`);
         document.body.appendChild(link);
         link.click();
     },
     async mainBtnClick() {
-        console.log("mainBtnClick");
-        switch(this.buttonState.id) {
-            case 'default':                
+        console.log(this.buttonState.id);
+        switch (this.buttonState.id) {
+            case 'default':
                 this.buttonState = buttonStates.loading;
                 this.renderStl();
                 break;
@@ -64,12 +95,12 @@ createApp({
             case 'failed':
                 this.buttonState = buttonStates.default;
                 break;
+            case 'download':
+                this.downloadStl();
+                break;
         }
-        console.log(this.buttonState);
-
     },
-    
-    
+
     mounted() {
         window.onbeforeunload = () => {
             console.log("UNLOAD")
@@ -85,43 +116,48 @@ createApp({
     },
 
     // inputs
-    sliderInput,
-    selectInput,
+    sliderInput(props) {
+        vals[props.name] = vals[props.name] || props.value;
+        return {
+            $template: '#slider-template',
+            name: props.name,
+            label: props.label,
+            description: props.description,
+            min: props.min,
+            max: props.max,
+            step: props.step,
+            value: vals[props.name],
+            parents: props.parents,
+            setVal() {
+                vals[props.name] = Number(this.value);
+                if (this.buttonState.id === 'download') {
+                    this.buttonState = buttonStates.default;
+                }
+            }
+        }
+    },
+    selectInput(props) {
+        vals[props.name] = vals[props.name] || props.value;
+        return {
+            $template: '#select-template',
+            name: props.name,
+            label: props.label,
+            description: props.description,
+            options: props.options,
+            value: vals[props.name] || props.value,
+            setVal() {
+                setTimeout(() => { vals[props.name] = this.value; }, 100);
+                if (this.buttonState.id === 'download') {
+                    this.buttonState = buttonStates.default;
+                }
+            }
+        }
+    }
 }).mount()
 
 
-function sliderInput(props) {
-    vals[props.name] = vals[props.name] || props.value;
-    return {
-        $template: '#slider-template',
-        name: props.name,
-        label: props.label,
-        description: props.description,
-        min: props.min,
-        max: props.max,
-        step: props.step,
-        value: vals[props.name],
-        parents: props.parents,
-        setVal() {
-            vals[props.name] = Number(this.value);
-        }
-    }
-}
 
-function selectInput(props) {
-    vals[props.name] = vals[props.name] || props.value;
-    return {
-        $template: '#select-template',
-        name: props.name,
-        label: props.label,
-        description: props.description,
-        options: props.options,
-        value: vals[props.name] || props.value,
-        setVal() {
-            setTimeout(() => { vals[props.name] = this.value; }, 100)
 
-        }
-    }
-}
+
 
 

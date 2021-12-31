@@ -84,9 +84,9 @@
                                         name: 'TechLength',
                                         label: 'Length',
                                         description: 'Select the length of the technic brick in studs.',
-                                        min: 1,
+                                        min: 2,
                                         max: 50,
-                                        value: 4,
+                                        value: 8,
                                         step: 1})">
                                     </div>
                                     <div :style="{display: vals.Type=='arm' ? 'block' : 'none'}" v-scope="sliderInput({
@@ -106,14 +106,14 @@
                                                     {label:'Full', value:'full'}, 
                                                     {label:'Half', value:'half'},
                                                 ],
-                                        value: 'half'})">
+                                        value: 'full'})">
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <h5 class="f5 fw5">
                                         Modifiers
                                     </h5>
-                                    <div :class="(vals.TopType=='studs' || vals.TopType=='techStuds') ? 'opacity-100' : 'opacity-25'"
+                                    <div :class="((vals.Type!='arm')&&(vals.TopType=='studs' || vals.TopType=='techStuds')) ? 'opacity-100' : 'opacity-25'"
                                         v-scope="sliderInput({
                                         name: 'studOuterRadiusOffset',
                                         label: 'Stud Outer Offset',
@@ -123,7 +123,7 @@
                                         value: 0,
                                         step: 0.02})">
                                     </div>
-                                    <div :class="vals.TopType=='techStuds' ? 'opacity-100' : 'opacity-25'" v-scope="sliderInput({
+                                    <div :class="(vals.Type!='arm' && vals.TopType=='techStuds') ? 'opacity-100' : 'opacity-25'" v-scope="sliderInput({
                                         name: 'studInnerRadiusOffset',
                                         label: 'Stud Inner Offset',
                                         description: 'Offset for the inner radius of studs.',
@@ -132,7 +132,7 @@
                                         value: 0,
                                         step: 0.02})">
                                     </div>
-                                    <div :class="vals.TopType!='tile' ? 'opacity-100' : 'opacity-25'" v-scope="selectInput({
+                                    <div :class="(vals.Type!='arm' && vals.TopType!='tile') ? 'opacity-100' : 'opacity-25'" v-scope="selectInput({
                                         name: 'studHeight',
                                         label: 'Stud Height',
                                         description: 'These are known values and should work',
@@ -200,17 +200,10 @@
             </div>
             <div class="col-12 col-lg-1 d-flex justify-content-center align-items-center py-2 ">
                 <button @click="mainBtnClick" type="button" class="btn btn-primary fs-5"
-                    :style="{visibility: true ? 'visible' : 'hidden'}">
-                    <i class="bi bi-box-arrow-in-down-right fs-1"></i>
+                    :disabled="buttonState.disabled">
+                    <i :class="buttonState.icon"></i>
                     {{ buttonState.text }}
                 </button>
-                <!--
-                    <button @click="downloadStl" class="btn btn-info position-absolute top-50 start-50 translate-middle">
-                    Download Model
-                    <i class="bi bi-download fs-1"></i>
-                </button>
-                -->
-
             </div>
 
             <div id="stlContainer" class="col-12 col-lg-5 p-0">
