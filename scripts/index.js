@@ -118,7 +118,6 @@ createApp({
         const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         })
-        setTimeout(() => {this.vals.Type = 'arm'}, 1000);
     },
 
     // inputs
