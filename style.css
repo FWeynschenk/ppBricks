@@ -12,3 +12,7 @@ canvas {
     border-color: #12af61 !important;
     color: #fff !important;
 }
+
+html, body {
+    height: 100%;
+  }
