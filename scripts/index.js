@@ -50,6 +50,7 @@ createApp({
 
     // methods
     renderStl() {
+        // TODO better name
         fetch('https://bp508.hopto.org:3847', {
             method: 'POST',
             body: JSON.stringify(vals),

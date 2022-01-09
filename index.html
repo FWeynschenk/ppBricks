@@ -13,11 +13,22 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7061053947327423"
         crossorigin="anonymous"></script>
 </head>
+
 <body v-scope @mounted="mounted" class="d-flex flex-column h-100">
     <main class="flex-shrink-1">
         <div class="container mt-3">
             <div class="row">
                 <h1 class="display-1 text-center pb-1">Perfect Printable Bricks</h1>
+            </div>
+            <div class="row">
+                <div class="card p-3 my-1">
+                    <p class="m-0">
+                        Use the <a
+                            href="https://www.prusaprinters.org/prints/98071-perfect-printable-bricks-calibration"
+                            target="_blank" class="link-primary" rel="noopener noreferrer">Calibration Model</a> to help
+                        calibrate the modifiers. Prints good at 0.2mm layer height or lower. Using a <em>raft</em> is recommended
+                        unless your printer is literally perfect.</p>
+                </div>
             </div>
             <div class="row d-flex justify-content-between">
                 <div class="col-12 col-lg-5 p-0">
@@ -159,7 +170,7 @@
                                         <div :class="vals.Type=='regular' ? 'opacity-100' : 'opacity-25'" v-scope="sliderInput({
                                         name: 'tubeOuterRadiusOffset',
                                         label: 'Tube Outer Offset.',
-                                        description: 'Tubes are the cylinders under a brick.',
+                                        description: 'Tubes are the cylinders under a brick. A positive value here will make the fit tighter.',
                                         min: -0.2,
                                         max: 0.2,
                                         value: 0,
@@ -168,7 +179,7 @@
                                         <div :class="vals.Type=='regular' ? 'opacity-100' : 'opacity-25'" v-scope="sliderInput({
                                         name: 'tubeInnerRadiusOffset',
                                         label: 'Tube Inner Offset',
-                                        description: 'Tubes are the cylinders under a brick.',
+                                        description: 'Tubes are the cylinders under a brick. A positive value here makes inside looser.',
                                         min: -0.2,
                                         max: 0.2,
                                         value: 0,
