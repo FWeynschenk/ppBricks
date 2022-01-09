@@ -13,12 +13,8 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7061053947327423"
         crossorigin="anonymous"></script>
 </head>
-<!--Wizard{elephantsfoot}, anti elephantsfeet cube-->
-
 <body v-scope @mounted="mounted" class="d-flex flex-column h-100">
     <main class="flex-shrink-1">
-
-
         <div class="container mt-3">
             <div class="row">
                 <h1 class="display-1 text-center pb-1">Perfect Printable Bricks</h1>
@@ -85,11 +81,21 @@
                                         value: 9.6,
                                         step: 3.2})">
                                         </div>
+                                        <div :style="{display: vals.Type=='technic' ? 'block' : 'none'}" v-scope="selectInput({
+                                        name: 'TechHoleAlign',
+                                        label: 'Tech Hole Alignment',
+                                        description: 'Select the alignment of the tech holes. Either aligned with studs or between them.',
+                                        options: [
+                                                    {label:'Aligned', value:'aligned'}, 
+                                                    {label:'Offset', value:'offset'},
+                                                ],
+                                        value: 'aligned'})">
+                                        </div>
                                         <div :style="{display: vals.Type=='technic' ? 'block' : 'none'}" v-scope="sliderInput({
                                         name: 'TechLength',
                                         label: 'Length',
                                         description: 'Select the length of the technic brick in studs.',
-                                        min: 2,
+                                        min: 1,
                                         max: 50,
                                         value: 8,
                                         step: 1})">
@@ -208,13 +214,13 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-1 d-flex justify-content-center align-items-center py-2 ">
-                    <button @click="mainBtnClick" type="button" class="btn btn-primary fs-5"
+                    <button v-cloak @click="mainBtnClick" type="button" class="btn btn-primary fs-5"
                         :disabled="buttonState.disabled">
                         <i :class="buttonState.icon"></i>
                         {{ buttonState.text }}
                     </button>
                 </div>
-                <div id="stlContainer" class="col-12 col-lg-5 p-0">
+                <div id="stlContainer" class="col-12 col-lg-5 p-0 min-vh-50">
                     <div id="stlViewer"></div>
                 </div>
             </div>
