@@ -20,3 +20,8 @@ body {
 [v-cloak] {
     display: none;
 }
+
+#orbitIcon {
+    width: 6%;
+    height: auto;
+}
