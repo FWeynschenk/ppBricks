@@ -54,7 +54,7 @@
                                         options: [
                                                     {label:'Regular', value:'regular'}, 
                                                     {label:'Technic', value:'technic'},
-                                                    {label:'Arm', value:'arm'},
+                                                    {label:'Beam', value:'arm'},
                                                     {label:'Plate', value:'plate'}
                                                 ],
                                         value: 'regular'})">
@@ -129,7 +129,7 @@
                                         </div>
                                         <div :style="{display: vals.Type=='arm' ? 'block' : 'none'}" v-scope="selectInput({
                                         name: 'ArmDepth',
-                                        label: 'Arm Depth',
+                                        label: 'Beam Depth',
                                         description: 'Select the type of top',
                                         options: [
                                                     {label:'Full', value:'full'}, 
@@ -213,7 +213,7 @@
                                         </div>
                                         <div :class="vals.Type=='arm' ? 'opacity-100' : 'opacity-25'" v-scope="sliderInput({
                                         name: 'armHoleRadOffset',
-                                        label: 'Arm Hole Offset',
+                                        label: 'Beam Hole Offset',
                                         description: 'Offset for the radius of the holes in the arm.',
                                         min: -0.2,
                                         max: 0.2,
