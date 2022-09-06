@@ -79,7 +79,7 @@ createApp({
         const objectUrl = URL.createObjectURL(new Blob([this.model], { type: 'text/stl' }));
         const link = document.createElement('a');
         link.href = objectUrl;
-        link.setAttribute('download', `${this.modelName}.stl`);
+        link.setAttribute('download', `${this.modelName}`);
         document.body.appendChild(link);
         link.click();
     },
