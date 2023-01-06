@@ -279,21 +279,25 @@
 
 <template id="select-template">
     <div class="form-floating">
+        
         <select v-on:change="setVal" class="form-select my-1" :id="name+'-id'" v-model="value">
             <option v-for="option in options" :value="option.value">
                 {{option.label}}
             </option>
         </select>
-        <label :for="name+'-id'">{{ label }}</label>
+        <label class="d-flex justify-content-between w-100" :for="name+'-id'">{{ label }}</label>
+        <div class="bi bi-info-circle position-absolute" style="right: 9px; top: 0px" data-bs-toggle="tooltip" data-bs-placement="right"
+                    :title="description"></div>
+            </div>
+        
     </div>
 </template>
 
 <template id="slider-template">
     <div class="border border-1 rounded-1 px-2 my-1">
         <div class="d-flex justify-content-between">
-
             <label :for="name+'id'" class="form-label d-inline">{{ label }}: {{ value }}</label>
-            <div class="d-inline bi bi-info-circle" data-bs-toggle="tooltip" data-bs-placement="right"
+            <div class="d-inline bi bi-info-circle z-3" data-bs-toggle="tooltip" data-bs-placement="right"
                 :title="description"></div>
         </div>
         <input v-on:change="setVal" type="range" class="form-range" v-model="value" :min="min" :max="max" :step="step"

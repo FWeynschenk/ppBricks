@@ -25,3 +25,7 @@ body {
     width: 6%;
     height: auto;
 }
+
+bi-info-circle {
+    z-index:999
+}
